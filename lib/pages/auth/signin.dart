@@ -1,8 +1,34 @@
+import 'package:crop/pages/auth/signup.dart';
+import 'package:crop/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  _signIn(String username, String password) async {
+    Auth auth = Auth();
+    final body = {"username": username, "password": password};
+    final user = auth.signin(body);
+    return user;
+  }
+
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+  String variable = "";
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +52,7 @@ class SignInPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         TextField(
+                          controller: usernameController,
                           decoration: InputDecoration(
                               prefixIcon: const Icon(
                                   size: 16.0, FontAwesomeIcons.envelope),
@@ -39,6 +66,7 @@ class SignInPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         TextField(
+                          controller: passwordController,
                           decoration: InputDecoration(
                               prefixIcon:
                                   const Icon(size: 16.0, FontAwesomeIcons.lock),
@@ -51,8 +79,10 @@ class SignInPage extends StatelessWidget {
                         const Text('Forgot password?'),
                         const SizedBox(height: 32),
                         TextButton(
-                          onPressed: () {
-                            // Add sign-in logic here
+                          onPressed: () async {
+                            final response = await _signIn(
+                                usernameController.text,
+                                passwordController.text);
                           },
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,
@@ -67,7 +97,7 @@ class SignInPage extends StatelessWidget {
                         const SizedBox(height: 16),
                         TextButton(
                           onPressed: () {
-                            // Add sign-in logic here
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignUpPage()));
                           },
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.black,
@@ -80,69 +110,7 @@ class SignInPage extends StatelessWidget {
                           ),
                           child: const Text("Don't have an account? Sign Up"),
                         ),
-                        const SizedBox(
-                          height: 32,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            // Add sign-in logic here
-                          },
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.black,
-                            backgroundColor:
-                                const Color.fromARGB(0, 221, 221, 221),
-                            minimumSize: const Size(double.infinity, 60),
-                            shape: const RoundedRectangleBorder(
-                                side: BorderSide(),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8))),
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              FaIcon(
-                                size: 15.0,
-                                FontAwesomeIcons.google,
-                              ),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              Text("Sign in with Google"),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              // Add sign-in logic here
-                            },
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.black,
-                              backgroundColor:
-                                  const Color.fromARGB(0, 221, 221, 221),
-                              minimumSize: const Size(double.infinity, 60),
-                              shape: const RoundedRectangleBorder(
-                                  side: BorderSide(),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
-                            ),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                FaIcon(
-                                  size: 15.0,
-                                  FontAwesomeIcons.facebook,
-                                ),
-                                SizedBox(
-                                  width: 16.0,
-                                ),
-                                Text("Sign in with Facebook"),
-                              ],
-                            )),
+                        Text(variable)
                       ],
                     ),
                   )
