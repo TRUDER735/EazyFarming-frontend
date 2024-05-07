@@ -8,7 +8,7 @@ class Auth {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      throw Exception('Failed to register user');
+     return null;
     }
   }
 
@@ -17,7 +17,7 @@ class Auth {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      throw Exception('Failed to login user');
+      return null;
     }
   }
 
@@ -29,5 +29,4 @@ class Auth {
       throw Exception('Failed to logout user');
     }
   }
-
 }

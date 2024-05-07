@@ -1,6 +1,6 @@
+import 'package:crop/main.dart';
 import 'package:crop/pages/auth/signin.dart';
 import 'package:crop/pages/crop_recommandation.dart';
-import 'package:crop/pages/home.dart';
 import 'package:crop/services/auth.dart';
 import 'package:crop/user.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +32,10 @@ class _SignUpPageState extends State<SignUpPage> {
     };
     dynamic response = await auth.register(body);
     if (!mounted) return;
-    if (response.statusCode == 200) {
+    if (response != null) {
       Provider.of<SignedInUser>(context, listen: false).updateUser(email);
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const CropRecommendation()));
+          MaterialPageRoute(builder: (context) => const CheckAuth()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(
@@ -148,10 +148,6 @@ class _SignUpPageState extends State<SignUpPage> {
                               emailController.text,
                               passwordController.text,
                             );
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Home()));
                           },
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,

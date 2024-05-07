@@ -1,4 +1,5 @@
 import 'package:crop/pages/auth/signup.dart';
+import 'package:crop/pages/home.dart';
 import 'package:crop/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,21 +12,29 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  _signIn(String username, String password) async {
+  _signIn(String email, String password) async {
     Auth auth = Auth();
-    final body = {"username": username, "password": password};
-    final user = auth.signin(body);
+    final body = {"email": email, "password": password};
+    final user = await auth.signin(body);
+    if (!mounted) return;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Incorrect username or password')));
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Home()));
+    }
     return user;
   }
 
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
   String variable = "";
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    usernameController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -52,7 +61,7 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         const SizedBox(height: 10),
                         TextField(
-                          controller: usernameController,
+                          controller: emailController,
                           decoration: InputDecoration(
                               prefixIcon: const Icon(
                                   size: 16.0, FontAwesomeIcons.envelope),
@@ -79,9 +88,9 @@ class _SignInPageState extends State<SignInPage> {
                         const Text('Forgot password?'),
                         const SizedBox(height: 32),
                         TextButton(
-                          onPressed: ()  { _signIn(
-                                usernameController.text,
-                                passwordController.text);
+                          onPressed: () {
+                            _signIn(
+                                emailController.text, passwordController.text);
                           },
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,
@@ -96,7 +105,10 @@ class _SignInPageState extends State<SignInPage> {
                         const SizedBox(height: 16),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignUpPage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignUpPage()));
                           },
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.black,
