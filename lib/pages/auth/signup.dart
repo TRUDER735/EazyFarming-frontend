@@ -1,7 +1,11 @@
 import 'package:crop/pages/auth/signin.dart';
+import 'package:crop/pages/crop_recommandation.dart';
+import 'package:crop/pages/home.dart';
 import 'package:crop/services/auth.dart';
+import 'package:crop/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -12,18 +16,32 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
 
-  _signUp(String name, String email, String password) async {
+  _signUp(
+      String firstName, String lastName, String email, String password) async {
     Auth auth = Auth();
-    Map <String,String> body = {
-      'name': name,
+    Map<String, String> body = {
+      'first_name': firstName,
+      'last_name': lastName,
       'email': email,
       'password': password,
     };
-    return await auth.register(body);
+    dynamic response = await auth.register(body);
+    if (!mounted) return;
+    if (response.statusCode == 200) {
+      Provider.of<SignedInUser>(context, listen: false).updateUser(email);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const CropRecommendation()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Failed to sign up make sure you have filled all the fields correctly')));
+    }
+    return response;
   }
 
   @override
@@ -44,15 +62,29 @@ class _SignUpPageState extends State<SignUpPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Full name',
+                          'First name',
                         ),
                         const SizedBox(height: 10),
                         TextField(
-                          controller: nameController,
+                          controller: firstNameController,
                           decoration: InputDecoration(
                               prefixIcon:
                                   const Icon(size: 16.0, FontAwesomeIcons.user),
-                              labelText: 'Enter first and last name',
+                              labelText: 'Enter first name',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8))),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Last name',
+                        ),
+                        const SizedBox(height: 10),
+                        TextField(
+                          controller: lastNameController,
+                          decoration: InputDecoration(
+                              prefixIcon:
+                                  const Icon(size: 16.0, FontAwesomeIcons.user),
+                              labelText: 'Enter your last name',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8))),
                         ),
@@ -110,11 +142,16 @@ class _SignUpPageState extends State<SignUpPage> {
                                       content: Text('Passwords do not match')));
                               return;
                             }
-                            dynamic response = await _signUp(
-                              nameController.text,
+                            _signUp(
+                              firstNameController.text,
+                              lastNameController.text,
                               emailController.text,
                               passwordController.text,
                             );
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Home()));
                           },
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,

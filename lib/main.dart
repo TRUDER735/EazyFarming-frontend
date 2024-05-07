@@ -1,12 +1,12 @@
 import 'package:crop/pages/auth/signin.dart';
-import 'package:crop/pages/auth/signup.dart';
 import 'package:crop/pages/home.dart';
-import 'package:crop/pages/profile/new.dart';
+import 'package:crop/user.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => SignedInUser(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,15 +28,16 @@ class MyApp extends StatelessWidget {
 class CheckAuth extends StatelessWidget {
   const CheckAuth({Key? key}) : super(key: key);
 
-  _getUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isSignedIn') ?? false;
+  _getUser(BuildContext context) async {
+    bool signedIn =
+        Provider.of<SignedInUser>(context,listen: false).email != "" ? true : false;
+    return signedIn;
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _getUser(),
+      future: _getUser(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -44,7 +45,7 @@ class CheckAuth extends StatelessWidget {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else {
           final bool isSignedIn = snapshot.data as bool;
-          return isSignedIn ? const Home() : const SignInPage() ;
+          return isSignedIn ? const Home() : const SignInPage();
         }
       },
     );

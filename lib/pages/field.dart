@@ -1,17 +1,19 @@
 import 'package:crop/components/field_list_tile.dart';
 import 'package:crop/pages/new_field.dart';
 import 'package:crop/pages/selected_field.dart';
+import 'package:crop/services/field.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Field extends StatefulWidget {
-  const Field({super.key});
+class FieldPage extends StatefulWidget {
+  const FieldPage({super.key});
 
   @override
-  State<Field> createState() => _FieldState();
+  State<FieldPage> createState() => _FieldState();
 }
 
-class _FieldState extends State<Field> {
+class _FieldState extends State<FieldPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

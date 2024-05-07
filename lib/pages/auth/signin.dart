@@ -79,8 +79,7 @@ class _SignInPageState extends State<SignInPage> {
                         const Text('Forgot password?'),
                         const SizedBox(height: 32),
                         TextButton(
-                          onPressed: () async {
-                            final response = await _signIn(
+                          onPressed: ()  { _signIn(
                                 usernameController.text,
                                 passwordController.text);
                           },

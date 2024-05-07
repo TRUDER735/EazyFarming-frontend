@@ -1,8 +1,6 @@
-import 'package:crop/pages/auth/signin.dart';
 import 'package:crop/pages/chat.dart';
 import 'package:crop/pages/crop_recommandation.dart';
 import 'package:crop/pages/field.dart';
-import 'package:crop/pages/profile/new.dart';
 import 'package:crop/pages/view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +15,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentPageIndex = 0;
   static const List<Widget> pages = [
-    Field(),
+    FieldPage(),
     CropRecommendation(),
     Chat(),
     ProfileView(),
@@ -91,11 +89,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-// Column(
-//           children: [
-//             Container(
-//               child: const Text('Soil Water Content : 10%'),
-//             )
-//           ],
-//         )
