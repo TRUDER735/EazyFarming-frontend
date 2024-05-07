@@ -4,11 +4,20 @@ class Auth {
   RestService rest = RestService();
 
   Future register(dynamic body) async {
-    final response = await rest.post('accounts/signup', body);
+    final response = await rest.post('accounts/signup/', body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
      return null;
+    }
+  }
+
+  Future getUser(String email) async {
+    final response = await rest.get('accounts/users/$email/');
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return null;
     }
   }
 
@@ -22,7 +31,7 @@ class Auth {
   }
 
   Future logout() async {
-    final response = await rest.get('logout');
+    final response = await rest.get('logout/');
     if (response.statusCode == 200) {
       return response.body;
     } else {

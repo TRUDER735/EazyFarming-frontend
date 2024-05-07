@@ -29,8 +29,10 @@ class CheckAuth extends StatelessWidget {
   const CheckAuth({Key? key}) : super(key: key);
 
   _getUser(BuildContext context) async {
-    bool signedIn =
-        Provider.of<SignedInUser>(context,listen: false).email != "" ? true : false;
+    String email = await SignedInUser().getSignedInUser();
+    bool signedIn = email != ""
+            ? true
+            : false;
     return signedIn;
   }
 

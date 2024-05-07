@@ -1,12 +1,9 @@
 import 'package:crop/main.dart';
 import 'package:crop/pages/auth/signin.dart';
-import 'package:crop/pages/crop_recommandation.dart';
 import 'package:crop/services/auth.dart';
 import 'package:crop/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -33,7 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
     dynamic response = await auth.register(body);
     if (!mounted) return;
     if (response != null) {
-      Provider.of<SignedInUser>(context, listen: false).updateUser(email);
+      SignedInUser().updateUser(email);
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const CheckAuth()));
     } else {

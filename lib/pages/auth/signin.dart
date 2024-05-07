@@ -1,6 +1,7 @@
 import 'package:crop/pages/auth/signup.dart';
 import 'package:crop/pages/home.dart';
 import 'package:crop/services/auth.dart';
+import 'package:crop/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -21,6 +22,7 @@ class _SignInPageState extends State<SignInPage> {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Incorrect username or password')));
     } else {
+      SignedInUser().updateUser(email);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const Home()));
     }

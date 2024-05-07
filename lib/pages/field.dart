@@ -13,6 +13,11 @@ class FieldPage extends StatefulWidget {
 }
 
 class _FieldState extends State<FieldPage> {
+  Future<List> _getFields() async {
+    Field field = Field();
+    dynamic data = await field.get('1');
+    return data;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,6 @@ class _FieldState extends State<FieldPage> {
         child: Column(
           children: [
             const ListTile(
-              leading: Icon(FontAwesomeIcons.arrowLeft),
               title: Center(
                 child: Text(
                   'My Fields : ',
@@ -42,11 +46,30 @@ class _FieldState extends State<FieldPage> {
             const SizedBox(
               height: 20.0,
             ),
-            FieldListTile(
-                onPressed: () => _showFieldBottomSheet(context),
-                fieldName: 'Field 1',
-                fieldType: 'Maize',
-                date: '24 April'),
+            FutureBuilder(
+                future: _getFields(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else {
+                    final List<dynamic> fields = snapshot.data as List<dynamic>;
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: fields.length,
+                        itemBuilder: (context, index) {
+                          dynamic field = fields[index];
+                          return FieldListTile(
+                              onPressed: () => _showFieldBottomSheet(context),
+                              fieldName: field['name'],
+                              fieldType: field['id'].toString(),
+                              date: field['name']);
+                        },
+                      ),
+                    );
+                  }
+                }),
           ],
         ),
       )),
