@@ -30,8 +30,9 @@ class _ChatState extends State<Chat> {
   final ScrollController _controller = ScrollController();
 
   void _addMessage(String message) async {
+    int userId = context.read<UserProvider>().id;
     Map<String, dynamic> body = {
-      'sender': Provider.of<SignedInUser>(context, listen: false).id,
+      'sender': userId.toString(),
       'content': message,
     };
     await msg.send(body);
@@ -129,7 +130,7 @@ class _BuildMessageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int userId = Provider.of<SignedInUser>(context, listen: false).id;
+    int userId = Provider.of<UserProvider>(context, listen: false).id;
     bool isReceived = (senderId == userId) ? false : true;
     var alignment =
         (senderId == userId) ? Alignment.centerRight : Alignment.centerLeft;

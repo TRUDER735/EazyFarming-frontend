@@ -4,27 +4,35 @@ import 'package:crop/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SignedInUser extends ChangeNotifier {
+class UserProvider extends ChangeNotifier {
   String email = "";
   int id = 0;
+  String name = "";
 
-  void updateUser(String newEmail) async {
+  UserProvider() {
+    getSignedInUser();
+  }
+
+  Future<void> updateUser(String newEmail) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    email = newEmail;
     if (newEmail != "") {
-      await prefs.setString('signedInUser', email);
+      await prefs.setString('signedInUser', newEmail);
       await setId(newEmail);
       notifyListeners();
     }
+    email = newEmail;
   }
 
   Future<void> setId(String newEmail) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Auth auth = Auth();
-    dynamic user = jsonDecode(await auth.getUser(email));
-    id = user['id'];
-    await prefs.setInt('id', id);
-    notifyListeners();
+    dynamic user = jsonDecode(await auth.getUser(newEmail));
+    if (user != null) {
+      await prefs.setInt('id', id);
+      id = user['id'];
+      name = user['first_name'];
+      notifyListeners();
+    }
   }
 
   Future<String> getSignedInUser() async {

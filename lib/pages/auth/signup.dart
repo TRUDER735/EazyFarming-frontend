@@ -30,7 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
     dynamic response = await auth.register(body);
     if (!mounted) return;
     if (response != null) {
-      SignedInUser().updateUser(email);
+      UserProvider().updateUser(email);
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const CheckAuth()));
     } else {

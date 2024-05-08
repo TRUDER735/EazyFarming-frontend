@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (context) => SignedInUser(), child: const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -15,12 +14,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Flutter Demo',
-      home: CheckAuth(),
-      // routes: {
-      //   '/': (context) => SignInPage()
-      // },
+    return ChangeNotifierProvider<UserProvider>(
+      create: (context) => UserProvider(),
+      child: const MaterialApp(
+        title: 'Flutter Demo',
+        home: CheckAuth(),
+      ),
     );
   }
 }
@@ -29,7 +28,7 @@ class CheckAuth extends StatelessWidget {
   const CheckAuth({Key? key}) : super(key: key);
 
   _getUser(BuildContext context) async {
-    String email = await SignedInUser().getSignedInUser();
+    String email = Provider.of<UserProvider>(context).email;
     bool signedIn = email != ""
             ? true
             : false;

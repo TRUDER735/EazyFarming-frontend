@@ -4,6 +4,7 @@ import 'package:crop/services/auth.dart';
 import 'package:crop/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -22,11 +23,10 @@ class _SignInPageState extends State<SignInPage> {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Incorrect username or password')));
     } else {
-      SignedInUser().updateUser(email);
+      Provider.of<UserProvider>(context,listen: false).updateUser(email);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const Home()));
     }
-    return user;
   }
 
   final emailController = TextEditingController();

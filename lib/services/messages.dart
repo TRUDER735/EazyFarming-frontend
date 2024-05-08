@@ -15,7 +15,7 @@ class Messages {
   }
 
   Future send(dynamic body) async {
-    final response = await rest.post('messages/', body);
+    final response = await rest.post('messages', body);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
