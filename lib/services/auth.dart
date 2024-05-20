@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:crop/services/rest.dart';
 
 class Auth {
@@ -15,7 +16,7 @@ class Auth {
   Future getUser(String email) async {
     final response = await rest.get('accounts/users/$email/');
     if (response.statusCode == 200) {
-      return response.body;
+      return jsonDecode(response.body);
     } else {
       return null;
     }
@@ -31,7 +32,7 @@ class Auth {
   }
 
   Future logout() async {
-    final response = await rest.get('logout/');
+    final response = await rest.post('logout/',{});
     if (response.statusCode == 200) {
       return response.body;
     } else {

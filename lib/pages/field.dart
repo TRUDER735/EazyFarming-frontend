@@ -23,7 +23,7 @@ class _FieldState extends State<FieldPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showNewFieldBottomSheet(context),
+        onPressed: () => _showNewField(context),
         child: const Icon(FontAwesomeIcons.plus),
       ),
       body: SafeArea(
@@ -60,11 +60,16 @@ class _FieldState extends State<FieldPage> {
                         itemCount: fields.length,
                         itemBuilder: (context, index) {
                           dynamic field = fields[index];
-                          return FieldListTile(
-                              onPressed: () => _showFieldBottomSheet(context),
-                              fieldName: field['name'],
-                              fieldType: field['id'].toString(),
-                              date: field['name']);
+                          return Column(
+                            children: [
+                              FieldListTile(
+                                  onPressed: () => _showField(context, field),
+                                  fieldName: field['name'],
+                                  fieldType: field['id'].toString(),
+                                  date: field['name']),
+                              const SizedBox(height: 16.0),
+                            ],
+                          );
                         },
                       ),
                     );
@@ -77,14 +82,12 @@ class _FieldState extends State<FieldPage> {
   }
 }
 
-Future _showNewFieldBottomSheet(BuildContext context) {
-  return showModalBottomSheet(
-      context: context, builder: (context) => const NewField());
+Future _showNewField(BuildContext context) {
+  return Navigator.push(context,
+      MaterialPageRoute(builder: (context) => const NewField()));
 }
 
-Future _showFieldBottomSheet(BuildContext context) {
-  return showModalBottomSheet<dynamic>(
-      context: context,
-      builder: (context) => const SelectedField(),
-      isScrollControlled: true);
+Future _showField(BuildContext context, dynamic field) {
+  return Navigator.push(context,
+      MaterialPageRoute(builder: (context) => SelectedField(field: field)));
 }

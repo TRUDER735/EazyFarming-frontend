@@ -1,5 +1,4 @@
 import 'package:crop/pages/chat.dart';
-import 'package:crop/pages/crop_recommandation.dart';
 import 'package:crop/pages/field.dart';
 import 'package:crop/pages/view.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ class _HomeState extends State<Home> {
   int currentPageIndex = 0;
   static const List<Widget> pages = [
     FieldPage(),
-    CropRecommendation(),
     Chat(),
     ProfileView(),
   ];
@@ -25,24 +23,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        // appBar: AppBar(
-        //     title: const Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     Text(
-        //       'Welcome Back',
-        //       style: TextStyle(
-        //         fontFamily: "Linotype",
-        //         fontSize: 32.0,
-        //       ),
-        //     ),
-        //     Text(
-        //       'Mr Urombo',
-        //       style: TextStyle(fontSize: 16.0),
-        //     ),
-        //   ],
-        // )
-        // ),
         bottomNavigationBar: NavigationBar(
           selectedIndex: currentPageIndex,
           onDestinationSelected: (int index) {
@@ -59,13 +39,6 @@ class _HomeState extends State<Home> {
                 color: Colors.grey[800],
               ),
               label: 'Home',
-            ),
-            NavigationDestination(
-              icon: Icon(
-                FontAwesomeIcons.seedling,
-                color: Colors.grey[800],
-              ),
-              label: 'Crops',
             ),
             NavigationDestination(
               icon: Icon(

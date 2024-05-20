@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:crop/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +24,7 @@ class UserProvider extends ChangeNotifier {
   Future<void> setId(String newEmail) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Auth auth = Auth();
-    dynamic user = jsonDecode(await auth.getUser(newEmail));
+    dynamic user = await auth.getUser(newEmail);
     if (user != null) {
       await prefs.setInt('id', id);
       id = user['id'];
@@ -42,7 +40,7 @@ class UserProvider extends ChangeNotifier {
     return retrievedEmail;
   }
 
-  void logOut() async {
+  Future<void> logOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('signedInUser');
     await prefs.remove('id');

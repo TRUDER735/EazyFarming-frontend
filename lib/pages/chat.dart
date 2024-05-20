@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Chat extends StatefulWidget {
@@ -15,19 +16,32 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
   List data = [];
+  DateTime time = DateTime.now();
   Messages msg = Messages();
+  String formattedDate = '';
+  String formattedTime = '';
+  bool omitDate = false;
+  late Timer _timer;
+
+  final TextEditingController _messageController = TextEditingController();
+  final ScrollController _controller = ScrollController();
+  final StreamController<List<dynamic>> _streamController =
+      StreamController<List<dynamic>>.broadcast();
 
   @override
   void initState() {
     super.initState();
-    // Start a timer to refresh the data every 5 seconds
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    // Start a timer to refresh the data every 1 second
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _refreshData();
     });
   }
 
-  final TextEditingController _messageController = TextEditingController();
-  final ScrollController _controller = ScrollController();
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
+  }
 
   void _addMessage(String message) async {
     int userId = context.read<UserProvider>().id;
@@ -50,7 +64,14 @@ class _ChatState extends State<Chat> {
       setState(() {
         data = newData;
       });
+      _streamController.add(data);
     }
+  }
+
+  bool compareDates(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   @override
@@ -58,8 +79,8 @@ class _ChatState extends State<Chat> {
     return Column(
       children: [
         const Text("Farmer's Community"),
-        FutureBuilder(
-          future: _getMessages(),
+        StreamBuilder<Object>(
+          stream: _streamController.stream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -83,9 +104,37 @@ class _ChatState extends State<Chat> {
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
                       dynamic message = messages[index];
-                      return _BuildMessageItem(
-                          message: message['content'],
-                          senderId: message['sender']);
+                      DateTime messageTime =
+                          DateTime.parse(message['time_sent']);
+                      if (!compareDates(time, messageTime)) {
+                        omitDate = false;
+                      } else {
+                        omitDate = true;
+                      }
+                      time = messageTime;
+                      formattedDate = DateFormat('dd/MM/yyyy').format(time);
+                      formattedTime = DateFormat('HH:mm').format(time);
+
+                      return Column(
+                        children: [
+                          !omitDate
+                              ? Text(
+                                  formattedDate,
+                                  style: const TextStyle(fontSize: 10.0),
+                                )
+                              : Container(),
+                          const SizedBox(
+                            height: 4.0,
+                          ),
+                          Text(
+                            formattedTime,
+                            style: const TextStyle(fontSize: 10.0),
+                          ),
+                          _BuildMessageItem(
+                              message: message['content'],
+                              senderId: message['sender']),
+                        ],
+                      );
                     }),
               );
             }

@@ -19,8 +19,8 @@ class Field {
     return response;
   }
 
-  Future create(String farmerID, dynamic body) async {
-    final response = await rest.post('farms/', body);
+  Future create(dynamic body) async {
+    final response = await rest.post('farms', body);
     if (response.statusCode == 200) {
       return response.body;
     } else {

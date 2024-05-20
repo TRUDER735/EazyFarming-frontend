@@ -59,46 +59,37 @@ class _CropSoilBarState extends State<CropSoilBar> {
           ),
           Row(
             children: [
-              Column(
-                children: [
-                  Text('Phosphorus'),
-                  Text(
-                    '0mm',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              SizedBox(width: 8.0),
-              Column(
-                children: [
-                  Text('Pottasium'),
-                  Text(
-                    '0mm',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              SizedBox(width: 8.0),
-              Column(
-                children: [
-                  Text('Nitrate'),
-                  Text(
-                    '0mm',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              SizedBox(width: 8.0),
-              Column(
-                children: [
-                  Text('Humidity'),
-                  Text(
-                    '2m/s',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
-                ],
-              )
+              SoilPropertyTile(heading: "Phosphorus", value: "0%"),
+              SoilPropertyTile(heading: "Pottasium", value: "0%",),
+              SoilPropertyTile(heading: "Nitrate", value: "0%"),
+              SoilPropertyTile(heading: "Humidity", value: "0%"),
             ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class SoilPropertyTile extends StatelessWidget {
+  final String heading;
+  final String value;
+
+  const SoilPropertyTile({
+    super.key,
+    required this.heading,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(heading),
+          Text(
+            value,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           )
         ],
       ),
