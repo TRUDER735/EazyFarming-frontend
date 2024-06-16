@@ -1,4 +1,5 @@
 import 'package:crop/components/field_map.dart';
+import 'package:crop/services/crop.dart';
 import 'package:crop/services/field.dart';
 import 'package:crop/user.dart';
 import 'package:flutter/material.dart';
@@ -187,7 +188,33 @@ class _NewFieldState extends State<NewField> {
 Future _showBottomModalSheetCropRecommendation(BuildContext context) {
   return showModalBottomSheet(
     context: context,
-    builder: (context) => SingleChildScrollView(
+    builder: (context) => const RecommendationContent(),
+  );
+}
+
+class RecommendationContent extends StatefulWidget {
+  const RecommendationContent({
+    super.key,
+  });
+
+  @override
+  State<RecommendationContent> createState() => _RecommendationContentState();
+}
+
+class _RecommendationContentState extends State<RecommendationContent> {
+  String value = "";
+  void getRecommendation() async {
+    Crop crop = Crop();
+    dynamic response = await crop.recommendation();
+    print(response);
+    // setState(() {
+    //   value = response;
+    // });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(
             left: 16.0, right: 16.0, bottom: 16.0, top: 16.0),
@@ -204,27 +231,41 @@ Future _showBottomModalSheetCropRecommendation(BuildContext context) {
             const SizedBox(
               height: 16.0,
             ),
-            const Text(
-              "Based on the soil type and location, we recommend the following crop for your field",
-              style: TextStyle(
-                fontSize: 16.0,
-              ),
-            ),
+            value == ""
+                ? const Text(
+                    "Press Get Recommendations to get crop recommendations for your field based on the soil type and location.",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  )
+                : const Text(
+                    "Recommended Crop based on soil type and location: "),
             const SizedBox(
               height: 16.0,
             ),
-            const Text(
-              "Rice",
-              style: TextStyle(
-                fontSize: 16.0,
-              ),
-            ),
+            value != ""
+                ? Text(
+                    value.toString(),
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  )
+                : const SizedBox(),
             const SizedBox(
               height: 8.0,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                TextButton(
+                  onPressed: () {
+                    getRecommendation();
+                  },
+                  child: const Text("Get Recommendations"),
+                ),
+                const SizedBox(
+                  width: 16.0,
+                ),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -236,6 +277,20 @@ Future _showBottomModalSheetCropRecommendation(BuildContext context) {
           ],
         ),
       ),
-    ),
-  );
+    );
+  }
+}
+
+class MyWidget extends StatefulWidget {
+  const MyWidget({super.key});
+
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
 }

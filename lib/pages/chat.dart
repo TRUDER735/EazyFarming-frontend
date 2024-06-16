@@ -44,9 +44,9 @@ class _ChatState extends State<Chat> {
   }
 
   void _addMessage(String message) async {
-    int userId = context.read<UserProvider>().id;
+    String name = context.read<UserProvider>().name;
     Map<String, dynamic> body = {
-      'sender': userId.toString(),
+      'sender_first_name': name,
       'content': message,
     };
     await msg.send(body);
@@ -132,7 +132,7 @@ class _ChatState extends State<Chat> {
                           ),
                           _BuildMessageItem(
                               message: message['content'],
-                              senderId: message['sender']),
+                              name: message['sender_first_name']),
                         ],
                       );
                     }),
@@ -173,17 +173,18 @@ class _ChatState extends State<Chat> {
 
 class _BuildMessageItem extends StatelessWidget {
   final String message;
-  final int senderId;
+  final String name;
 
-  const _BuildMessageItem({required this.message, required this.senderId});
+  const _BuildMessageItem({required this.message, required this.name});
 
   @override
   Widget build(BuildContext context) {
-    int userId = Provider.of<UserProvider>(context, listen: false).id;
-    bool isReceived = (senderId == userId) ? false : true;
+    String userName = Provider.of<UserProvider>(context, listen: false).name;
+
+    bool isReceived = (name == userName) ? false : true;
     var alignment =
-        (senderId == userId) ? Alignment.centerRight : Alignment.centerLeft;
-    var crossAlignment = (senderId == userId)
+        (name == userName) ? Alignment.centerRight : Alignment.centerLeft;
+    var crossAlignment = (name == userName)
         ? CrossAxisAlignment.end
         : CrossAxisAlignment.start;
     return Container(
@@ -191,7 +192,7 @@ class _BuildMessageItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: crossAlignment,
           children: [
-            Text(senderId.toString()),
+            Text(name),
             const SizedBox(
               height: 5.0,
             ),

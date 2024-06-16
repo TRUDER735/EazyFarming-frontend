@@ -1,6 +1,5 @@
 import 'package:crop/services/weather.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WeatherBar extends StatefulWidget {
   const WeatherBar({super.key});
@@ -67,11 +66,8 @@ class _WeatherBarState extends State<WeatherBar> {
                             width: 100,
                             height: 100,
                           ),
-                          const SizedBox(
-                            width: 16.0,
-                          ),
                           Text(
-                            '$temp °C',
+                            '$temp°C',
                             style: const TextStyle(
                               fontSize: 22.0,
                               fontWeight: FontWeight.bold,
