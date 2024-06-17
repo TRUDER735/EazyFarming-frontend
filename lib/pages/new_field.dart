@@ -262,10 +262,9 @@ class _RecommendationContentState extends State<RecommendationContent> {
   void getRecommendation() async {
     Crop crop = Crop();
     dynamic response = await crop.recommendation();
-    print(response);
-    // setState(() {
-    //   value = response;
-    // });
+    setState(() {
+      value = response["The best crop to cultivate is "];
+    });
   }
 
   @override

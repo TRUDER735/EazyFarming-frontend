@@ -101,10 +101,9 @@ class _FertRecommendationState extends State<FertRecommendation> {
       "Soil_color": widget.soil,
       "Crop": widget.crop
     });
-    print(response);
-    // setState(() {
-    //   value = response;
-    // });
+    setState(() {
+      value = response["The best fertilizer to use is"];
+    });
   }
 
   @override
