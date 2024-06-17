@@ -116,7 +116,7 @@ class _FertRecommendationState extends State<FertRecommendation> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Crop Recommendation",
+              "Fertiliser Recommendation",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24.0,
