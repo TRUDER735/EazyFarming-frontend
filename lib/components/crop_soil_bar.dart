@@ -74,9 +74,9 @@ class _CropSoilBarState extends State<CropSoilBar> {
                   ),
                   Row(
                     children: [
-                      SoilPropertyTile(heading: "Phosphorus", value: soil['P']),
-                      SoilPropertyTile(heading: "Pottasium", value: soil['K']),
-                      SoilPropertyTile(heading: "Nitrate", value: soil['N']),
+                      SoilPropertyTile(heading: "Phosphorus", value: double.parse(soil['P']).toStringAsFixed(2)),
+                      SoilPropertyTile(heading: "Pottasium", value: double.parse(soil['K']).toStringAsFixed(2)),
+                      SoilPropertyTile(heading: "Nitrate", value: double.parse(soil['N']).toStringAsFixed(2)),
                       SoilPropertyTile(heading: "pH", value: double.parse(soil['pH']).toStringAsFixed(2)),
                     ],
                   )

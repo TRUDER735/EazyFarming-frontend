@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 
 class RestService {
   // final String baseUrl = "https://eazyfarmapi.onrender.com/api/";
-  final String baseUrl = "http://192.168.0.117:8000/api/";
+  final String baseUrl = "http://192.168.100.29:8000/api/";
 
   Future<http.Response> get(String path) async {
     final url = Uri.parse('$baseUrl$path');

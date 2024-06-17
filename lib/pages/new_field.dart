@@ -19,6 +19,30 @@ class _NewFieldState extends State<NewField> {
 
   String soilType = "Black";
   LatLng? _selectedLocation;
+  String region = "Region1";
+
+  List<DropdownMenuItem<String>> regions = [
+    const DropdownMenuItem(
+      value: 'Region1',
+      child: Text('Region 1'),
+    ),
+    const DropdownMenuItem(
+      value: 'Region2',
+      child: Text('Region 2'),
+    ),
+    const DropdownMenuItem(
+      value: 'Region3',
+      child: Text('Region 3'),
+    ),
+    const DropdownMenuItem(
+      value: 'Region4',
+      child: Text('Region 4'),
+    ),
+    const DropdownMenuItem(
+      value: 'Region5',
+      child: Text('Region 5'),
+    ),
+  ];
 
   List<DropdownMenuItem<String>> items = [
     const DropdownMenuItem(
@@ -47,8 +71,9 @@ class _NewFieldState extends State<NewField> {
     Field field = Field();
     dynamic body = {
       'name': name,
-      'area': crop,
-      // 'soil_type': soilType,
+      'area': region,
+      'crop': crop,
+      'soil_type': soilType,
       'owner': Provider.of<UserProvider>(context, listen: false).id.toString(),
       // 'location': _selectedLocation.toString(),
     };
@@ -145,6 +170,37 @@ class _NewFieldState extends State<NewField> {
                     },
                     value: soilType,
                     hint: const Text('Select Soil Type')),
+              ),
+            ),
+            const SizedBox(
+              height: 16.0,
+            ),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                border: Border.all(color: Colors.grey),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton(
+                    isExpanded: true,
+                    elevation: 16,
+                    iconSize: 24,
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    items: regions,
+                    onChanged: (
+                      String? value,
+                    ) {
+                      setState(() {
+                        region = value!;
+                      });
+                    },
+                    value: region,
+                    hint: const Text('Select Region')),
               ),
             ),
             const SizedBox(
