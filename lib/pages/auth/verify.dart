@@ -1,4 +1,5 @@
 import 'package:crop/main.dart';
+import 'package:crop/pages/home.dart';
 import 'package:crop/user.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class VerifyPageState extends State<VerifyPage> {
     if (verificationCode == '123456') {
       UserProvider().updateUser(widget.email);
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const CheckAuth()));
+          context, MaterialPageRoute(builder: (context) => const Home()));
       // Verification successful, navigate to the next page
       Navigator.pushReplacementNamed(context, '/home');
     } else {

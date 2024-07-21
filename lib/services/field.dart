@@ -6,7 +6,7 @@ class Field {
   final RestService rest = RestService();
 
   Future get(String farmerID) async {
-    final response = await rest.get('farms/');
+    final response = await rest.get('farmer/$farmerID/farms/');
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -21,8 +21,8 @@ class Field {
 
   Future create(dynamic body) async {
     final response = await rest.post('farms', body);
-    if (response.statusCode == 200) {
-      return response.body;
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return jsonDecode(response.body);
     } else {
       return null;
     }

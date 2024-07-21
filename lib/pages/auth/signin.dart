@@ -23,8 +23,8 @@ class _SignInPageState extends State<SignInPage> {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Incorrect username or password')));
     } else {
-      Provider.of<UserProvider>(context,listen: false).updateUser(email);
-      Navigator.push(
+      Provider.of<UserProvider>(context, listen: false).updateUser(user);
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const Home()));
     }
   }
@@ -64,8 +64,8 @@ class _SignInPageState extends State<SignInPage> {
                     TextField(
                       controller: emailController,
                       decoration: InputDecoration(
-                          prefixIcon: const Icon(
-                              size: 16.0, FontAwesomeIcons.envelope),
+                          prefixIcon:
+                              const Icon(size: 16.0, FontAwesomeIcons.envelope),
                           labelText: 'Enter email address',
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8))),
@@ -90,16 +90,15 @@ class _SignInPageState extends State<SignInPage> {
                     const SizedBox(height: 32),
                     TextButton(
                       onPressed: () {
-                        _signIn(
-                            emailController.text.trim(), passwordController.text);
+                        _signIn(emailController.text.trim(),
+                            passwordController.text);
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: Colors.grey[800],
                         minimumSize: const Size(double.infinity, 60),
                         shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8))),
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
                       ),
                       child: const Text('Sign In'),
                     ),
@@ -117,8 +116,7 @@ class _SignInPageState extends State<SignInPage> {
                             const Color.fromARGB(255, 221, 221, 221),
                         minimumSize: const Size(double.infinity, 60),
                         shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8))),
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
                       ),
                       child: const Text("Don't have an account? Sign Up"),
                     ),

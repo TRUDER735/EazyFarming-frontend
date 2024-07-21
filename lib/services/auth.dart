@@ -25,7 +25,7 @@ class Auth {
   Future signin(dynamic body) async {
     final response = await rest.post('accounts/login', body);
     if (response.statusCode == 200) {
-      return response.body;
+      return jsonDecode(response.body);
     } else {
       return null;
     }

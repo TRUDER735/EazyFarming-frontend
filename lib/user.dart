@@ -1,51 +1,31 @@
-import 'package:crop/services/auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProvider extends ChangeNotifier {
-  String email = "";
-  int id = 0;
-  String name = "";
+  String _email = "";
+  int _id = 0;
+  String _name = "";
+  String _token = "";
 
-  UserProvider() {
-    getSignedInUser();
-  }
+  // Getters for the private variables
+  String get email => _email;
+  int get id => _id;
+  String get name => _name;
+  String get token => _token;
 
-  Future<void> updateUser(String newEmail) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (newEmail != "") {
-      await prefs.setString('signedInUser', newEmail);
-      await setId(newEmail);
-      notifyListeners();
-    }
-    email = newEmail;
-  }
-
-  Future<void> setId(String newEmail) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    Auth auth = Auth();
-    dynamic user = await auth.getUser(newEmail);
-    if (user != null) {
-      await prefs.setInt('id', id);
-      id = user['id'];
-      name = user['first_name'];
-      notifyListeners();
-    }
-  }
-
-  Future<String> getSignedInUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String retrievedEmail = prefs.getString('signedInUser') ?? "";
-    updateUser(retrievedEmail);
-    return retrievedEmail;
+  Future<void> updateUser(dynamic user) async {
+    print("user email ,$user['email']");
+    _email = user["email"];
+    _id = user["user_id"];
+    _name = user["first_name"];
+    _token = user["token"];
+    notifyListeners();
   }
 
   Future<void> logOut() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('signedInUser');
-    await prefs.remove('id');
-    email = "";
-    id = 0;
+    _email = "";
+    _id = 0;
+    _name = "";
+    _token = "";
     notifyListeners();
   }
 }

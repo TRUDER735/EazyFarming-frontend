@@ -44,12 +44,12 @@ class _ChatState extends State<Chat> {
   }
 
   void _addMessage(String message) async {
-    String name = context.read<UserProvider>().name;
+    String name = context.read<UserProvider>().email;
     Map<String, dynamic> body = {
       'sender_first_name': name,
       'content': message,
     };
-    await msg.send(body);
+    await msg.send(body, email: name);
   }
 
   Future _getMessages() async {

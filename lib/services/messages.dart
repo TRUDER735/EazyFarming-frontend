@@ -14,12 +14,17 @@ class Messages {
     }
   }
 
-  Future send(dynamic body) async {
-    final response = await rest.post('messages', body);
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      return null;
+  Future send(dynamic body, {String? email}) async {
+    final res = await rest.post('accounts/login', {'email': email, 'password': '123'});
+    if (res.statusCode == 200) {
+      final data = await jsonDecode(res.body);
+      final String token = data['token'];
+      final response = await rest.post('messages', body, token: token);
+      if (response.statusCode == 200) {
+        return await jsonDecode(response.body);
+      } else {
+        return null;
+      }
     }
   }
 }

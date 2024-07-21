@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 
 class RestService {
   // final String baseUrl = "https://eazyfarmapi.onrender.com/api/";
-  final String baseUrl = "http://192.168.43.109:8000/api/";
+  final String baseUrl = "http://192.168.0.112:8000/api/";
 
   Future<http.Response> get(String path) async {
     final url = Uri.parse('$baseUrl$path');
@@ -10,10 +10,16 @@ class RestService {
     return response;
   }
 
-  Future<http.Response> post(String path, dynamic body) async {
+  Future<http.Response> post(String path, dynamic body, {String? token}) async {
     final url = Uri.parse('$baseUrl$path/');
-    final response = await http.post(url, body: body);
-    return response;
+    if (token != null) {
+      return await http.post(url, headers: {
+        'Authorization': 'Bearer $token',
+      });
+    } else {
+      final response = await http.post(url, body: body);
+      return response;
+    }
   }
 
   Future<http.Response> delete(String path, String id) async {

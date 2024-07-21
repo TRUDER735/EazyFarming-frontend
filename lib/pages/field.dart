@@ -2,8 +2,10 @@ import 'package:crop/components/field_list_tile.dart';
 import 'package:crop/pages/new_field.dart';
 import 'package:crop/pages/selected_field.dart';
 import 'package:crop/services/field.dart';
+import 'package:crop/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class FieldPage extends StatefulWidget {
   const FieldPage({super.key});
@@ -13,14 +15,16 @@ class FieldPage extends StatefulWidget {
 }
 
 class _FieldState extends State<FieldPage> {
-  Future<List> _getFields() async {
+  Future<List> _getFields(String id)  async {
     Field field = Field();
-    dynamic data = await field.get('1');
+    dynamic data = await field.get(id);
     return data;
   }
 
   @override
   Widget build(BuildContext context) {
+  final userProvider = Provider.of<UserProvider>(context);
+  print(userProvider.id.toString());
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showNewField(context),
@@ -47,7 +51,7 @@ class _FieldState extends State<FieldPage> {
               height: 20.0,
             ),
             FutureBuilder(
-                future: _getFields(),
+                future: _getFields(userProvider.id.toString()),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
