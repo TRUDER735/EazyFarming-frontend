@@ -5,7 +5,7 @@ class Auth {
   RestService rest = RestService();
 
   Future register(dynamic body) async {
-    final response = await rest.post('accounts/signup/', body);
+    final response = await rest.post('accounts/signup', body);
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -30,6 +30,16 @@ class Auth {
       return null;
     }
   }
+
+  Future activate(dynamic body) async {
+    final response = await rest.post('accounts/activate-account', body);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      return null;
+    }
+  }
+
 
   Future logout() async {
     final response = await rest.post('logout/',{});

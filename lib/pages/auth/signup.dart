@@ -17,6 +17,8 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
 
+  
+
   _signUp(
       String firstName, String lastName, String email, String password) async {
     Auth auth = Auth();
@@ -29,10 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
     dynamic response = await auth.register(body);
     if (!mounted) return;
     if (response != null) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyPage(email: email)));
-      // UserProvider().updateUser(email);
-      // Navigator.push(context,
-      //     MaterialPageRoute(builder: (context) => const CheckAuth()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyPage(user: body)));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(

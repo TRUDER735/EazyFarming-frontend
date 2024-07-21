@@ -1,8 +1,10 @@
 import 'package:crop/pages/chat.dart';
 import 'package:crop/pages/field.dart';
 import 'package:crop/pages/view.dart';
+import 'package:crop/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,14 +15,15 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentPageIndex = 0;
-  static const List<Widget> pages = [
-    FieldPage(),
-    Chat(),
-    ProfileView(),
-  ];
+ 
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> pages = [
+    FieldPage(id: Provider.of<UserProvider>(context).id.toString()),
+    const Chat(),
+    const ProfileView(),
+  ];
     return MaterialApp(
       home: Scaffold(
         bottomNavigationBar: NavigationBar(

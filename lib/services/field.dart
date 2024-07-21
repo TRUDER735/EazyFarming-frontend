@@ -27,4 +27,13 @@ class Field {
       return null;
     }
   }
+
+  Future update(dynamic body, String fieldID) async {
+    final response = await rest.post('farm/$fieldID/add-crop', body);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return jsonDecode(response.body);
+    } else {
+      return null;
+    }
+  }
 }

@@ -13,7 +13,6 @@ class UserProvider extends ChangeNotifier {
   String get token => _token;
 
   Future<void> updateUser(dynamic user) async {
-    print("user email ,$user['email']");
     _email = user["email"];
     _id = user["user_id"];
     _name = user["first_name"];

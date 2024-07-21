@@ -13,9 +13,12 @@ class RestService {
   Future<http.Response> post(String path, dynamic body, {String? token}) async {
     final url = Uri.parse('$baseUrl$path/');
     if (token != null) {
-      return await http.post(url, headers: {
+      print(token);
+      final response = await http.post(url, headers: {
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       });
+      return response;
     } else {
       final response = await http.post(url, body: body);
       return response;

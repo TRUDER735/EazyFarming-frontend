@@ -2,7 +2,10 @@ import 'package:crop/services/soil.dart';
 import 'package:flutter/material.dart';
 
 class CropSoilBar extends StatefulWidget {
-  const CropSoilBar({super.key});
+  final dynamic field;
+  const CropSoilBar({
+    super.key, required this.field,
+  });
 
   @override
   State<CropSoilBar> createState() => _CropSoilBarState();
@@ -34,7 +37,7 @@ class _CropSoilBarState extends State<CropSoilBar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Expected Crop Stage',
+                    'Crop Stage',
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -49,7 +52,7 @@ class _CropSoilBarState extends State<CropSoilBar> {
                               child: Text(
                                 '33',
                                 style: TextStyle(
-                                  fontSize: 36.0,
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -74,10 +77,18 @@ class _CropSoilBarState extends State<CropSoilBar> {
                   ),
                   Row(
                     children: [
-                      SoilPropertyTile(heading: "Phosphorus", value: double.parse(soil['P']).toStringAsFixed(2)),
-                      SoilPropertyTile(heading: "Pottasium", value: double.parse(soil['K']).toStringAsFixed(2)),
-                      SoilPropertyTile(heading: "Nitrate", value: double.parse(soil['N']).toStringAsFixed(2)),
-                      SoilPropertyTile(heading: "pH", value: double.parse(soil['pH']).toStringAsFixed(2)),
+                      SoilPropertyTile(
+                          heading: "Phosphorus",
+                          value: double.parse(soil['P']).toStringAsFixed(2)),
+                      SoilPropertyTile(
+                          heading: "Pottasium",
+                          value: double.parse(soil['K']).toStringAsFixed(2)),
+                      SoilPropertyTile(
+                          heading: "Nitrate",
+                          value: double.parse(soil['N']).toStringAsFixed(2)),
+                      SoilPropertyTile(
+                          heading: "pH",
+                          value: double.parse(soil['pH']).toStringAsFixed(2)),
                     ],
                   )
                 ],

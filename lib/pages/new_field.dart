@@ -77,11 +77,15 @@ class _NewFieldState extends State<NewField> {
       'owner': Provider.of<UserProvider>(context, listen: false).id.toString(),
       // 'location': _selectedLocation.toString(),
     };
-    print(body);
     dynamic response = await field.create(body);
     if (response != null) {
       // ignore: use_build_context_synchronously
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCrop()));  
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AddCrop(
+                    field: response,
+                  )));
     } else {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
@@ -110,10 +114,6 @@ class _NewFieldState extends State<NewField> {
           'New Field',
           style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showBottomModalSheetCropRecommendation(context),
-        child: const Icon(FontAwesomeIcons.lightbulb),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
@@ -172,7 +172,7 @@ class _NewFieldState extends State<NewField> {
             const SizedBox(
               height: 16.0,
             ),
-             const Text("Select Region"),
+            const Text("Select Region"),
             const SizedBox(
               height: 8.0,
             ),
@@ -241,114 +241,5 @@ class _NewFieldState extends State<NewField> {
         ),
       ),
     );
-  }
-}
-
-Future _showBottomModalSheetCropRecommendation(BuildContext context) {
-  return showModalBottomSheet(
-    context: context,
-    builder: (context) => const RecommendationContent(),
-  );
-}
-
-class RecommendationContent extends StatefulWidget {
-  const RecommendationContent({
-    super.key,
-  });
-
-  @override
-  State<RecommendationContent> createState() => _RecommendationContentState();
-}
-
-class _RecommendationContentState extends State<RecommendationContent> {
-  String value = "";
-  void getRecommendation() async {
-    Crop crop = Crop();
-    dynamic response = await crop.recommendation();
-    setState(() {
-      value = response["The best crop to cultivate is "];
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(
-            left: 16.0, right: 16.0, bottom: 16.0, top: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Crop Recommendation",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0,
-              ),
-            ),
-            const SizedBox(
-              height: 16.0,
-            ),
-            value == ""
-                ? const Text(
-                    "Press Get Recommendations to get crop recommendations for your field based on the soil type and location.",
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  )
-                : const Text(
-                    "Recommended Crop based on soil type and location: "),
-            const SizedBox(
-              height: 16.0,
-            ),
-            value != ""
-                ? Text(
-                    value.toString(),
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  )
-                : const SizedBox(),
-            const SizedBox(
-              height: 8.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    getRecommendation();
-                  },
-                  child: const Text("Get Recommendations"),
-                ),
-                const SizedBox(
-                  width: 16.0,
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Close"),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
-
-  @override
-  State<MyWidget> createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<MyWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

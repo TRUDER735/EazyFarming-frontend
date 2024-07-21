@@ -14,11 +14,7 @@ class Messages {
     }
   }
 
-  Future send(dynamic body, {String? email}) async {
-    final res = await rest.post('accounts/login', {'email': email, 'password': '123'});
-    if (res.statusCode == 200) {
-      final data = await jsonDecode(res.body);
-      final String token = data['token'];
+  Future send(dynamic body, String token) async {
       final response = await rest.post('messages', body, token: token);
       if (response.statusCode == 200) {
         return await jsonDecode(response.body);
@@ -27,4 +23,3 @@ class Messages {
       }
     }
   }
-}
