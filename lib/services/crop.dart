@@ -18,9 +18,17 @@ class Crop {
       } else {
         throw Exception('Failed to get recommendation');
       }
-      } else {
-        throw Exception('Failed to get recommendation');
-      }
+    } else {
+      throw Exception('Failed to get recommendation');
     }
   }
 
+  Future get(String id) async {
+    final response = await rest.get('crop/$id/');
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to get crop');
+    }
+  }
+}

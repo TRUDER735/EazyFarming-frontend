@@ -39,7 +39,6 @@ class _FieldState extends State<FieldPage> {
       StreamController<List<dynamic>>.broadcast();
 
   Future<List> _getFields() async {
-    print(widget.id);
     Field field = Field();
     dynamic data = await field.get(widget.id);
     return data;

@@ -42,7 +42,7 @@ class _SelectedFieldState extends State<SelectedField> {
             children: [
               const WeatherBar(),
               const SizedBox(height: 20.0),
-              _field['crop'] == null
+              _field['current_crop'] == null
                   ? TextButton(
                       onPressed: () {
                         Navigator.push(
@@ -105,7 +105,10 @@ class FertRecommendation extends StatefulWidget {
   final String crop;
 
   const FertRecommendation(
-      {super.key, required this.region, required this.soil, required this.crop});
+      {super.key,
+      required this.region,
+      required this.soil,
+      required this.crop});
 
   @override
   State<FertRecommendation> createState() => _FertRecommendationState();
@@ -181,8 +184,7 @@ class _FertRecommendationState extends State<FertRecommendation> {
                     onPressed: _getRecommendation,
                     child: const Text("Get Recommendations"),
                   ),
-                if (isLoading)
-                  const CircularProgressIndicator(),
+                if (isLoading) const CircularProgressIndicator(),
                 const SizedBox(width: 16.0),
                 TextButton(
                   onPressed: () {

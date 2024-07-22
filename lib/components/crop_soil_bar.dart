@@ -1,10 +1,12 @@
+import 'package:crop/services/crop.dart';
 import 'package:crop/services/soil.dart';
 import 'package:flutter/material.dart';
 
 class CropSoilBar extends StatefulWidget {
   final dynamic field;
   const CropSoilBar({
-    super.key, required this.field,
+    super.key,
+    required this.field,
   });
 
   @override
@@ -13,12 +15,18 @@ class CropSoilBar extends StatefulWidget {
 
 class _CropSoilBarState extends State<CropSoilBar> {
   Future<dynamic> getSoilStatus() async {
-    dynamic response = await Soil().get();
+    dynamic response = await Soil().get(); 
     return response;
+  }
+
+  Future<dynamic> getCropName() async {
+    dynamic response = await Crop().get(widget.field['current_crop']);
+    return response['name'];
   }
 
   @override
   Widget build(BuildContext context) {
+    String crop = widget.field['current_crop'];
     return FutureBuilder(
         future: getSoilStatus(),
         builder: (context, snapshot) {
@@ -39,8 +47,7 @@ class _CropSoilBarState extends State<CropSoilBar> {
                   const Text(
                     'Crop Stage',
                     style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
                     ),
                   ),
                   const Row(
@@ -50,7 +57,7 @@ class _CropSoilBarState extends State<CropSoilBar> {
                           children: [
                             Expanded(
                               child: Text(
-                                '33',
+                                '1 day',
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold,
@@ -61,6 +68,16 @@ class _CropSoilBarState extends State<CropSoilBar> {
                         ),
                       ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                    'Crop Name: $crop',
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(
                     height: 10.0,

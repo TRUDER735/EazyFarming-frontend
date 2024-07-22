@@ -80,7 +80,7 @@ class _NewFieldState extends State<NewField> {
     dynamic response = await field.create(body);
     if (response != null) {
       // ignore: use_build_context_synchronously
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => AddCrop(

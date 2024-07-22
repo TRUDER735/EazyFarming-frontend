@@ -1,3 +1,4 @@
+import 'package:crop/pages/home.dart';
 import 'package:crop/services/crop.dart';
 import 'package:crop/services/field.dart';
 import 'package:flutter/material.dart';
@@ -32,11 +33,11 @@ class _AddCropState extends State<AddCrop> {
     const DropdownMenuItem(value: 'Maize', child: Text('Maize')),
     const DropdownMenuItem(value: 'Millet', child: Text('Millet')),
     const DropdownMenuItem(value: 'Wheat', child: Text('Wheat')),
-    const DropdownMenuItem(value: 'Ground nut', child: Text('Groundnuts')),
+    const DropdownMenuItem(value: 'Groundnut', child: Text('Groundnuts')),
     const DropdownMenuItem(value: 'Sugarcane', child: Text('Sugarcane')),
     const DropdownMenuItem(value: 'Tobacco', child: Text('Tobacco')),
     const DropdownMenuItem(value: 'Oil seeds', child: Text('Oil seeds')),
-    const DropdownMenuItem(value: 'Soyabean', child: Text('Soybeans')),
+    const DropdownMenuItem(value: 'Soyabeans', child: Text('Soybeans')),
   ];
 
   final List<DropdownMenuItem<String>> durationUnits = [
@@ -52,7 +53,6 @@ class _AddCropState extends State<AddCrop> {
         'duration': duration,
         'duration_unit': durationUnit,
         'name': crop,
-        'planted_date': "2024-07-22",
       };
       await field.update(body, widget.field['id'].toString());
     } catch (e) {
@@ -179,7 +179,7 @@ class _AddCropState extends State<AddCrop> {
                         _durationController.text, durationUnit, crop);
                     _durationController.clear();
                     _cropController.clear();
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const Home()));
                   },
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.white,
